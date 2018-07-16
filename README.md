@@ -35,12 +35,15 @@ One of your teammates gave you a tip that the code that runs the city search fea
 
     ![Clone repository](clone.png)
 
-1. Double click on the cloned repository.
+1. Click **Solutions and Folders**.
 
-1. Under Solutions, double click on the `SmartHotel.Services.Hotels.sln` solution.
-    ![Hotels solution](hotels-solution.png)
-    
-### Fix the Hotels microservice
+1. Click on the `SmartHotel.Services.Hotels.sln` solution.
+
+### Set up debugging in Azure Dev Spaces
+
+You can see that SmartHotel360 is a large application. In order to track down this bug, you might think you'd need to set up all the databases, services, all of it, or at least get a copy of the AKS cluster on your machine or somewhere else so you won't impact your teammates, who might need to utilize the same databases and services for their own testing. This could take hours, or days, to set up and get working properly.
+
+Luckily, that's exactly what **Azure Dev Spaces** can do for you. Without setting up anything, you can select Dev Spaces to use when you want to debug your code. Then, a copy of your service is deployed into AKS, and commands will be routed to that copy of the service. That way, you can debug my code changes **in your own space** without impacting your teammates, all of whom may have code running in their own Dev Spaces.
 
 1. In Solution Explorer, Locate the **SmartHotel.Services.Hotels** project.
 
@@ -48,39 +51,7 @@ One of your teammates gave you a tip that the code that runs the city search fea
 
     ![CitiesContoller file](hotels-project.png)
 
-1. Now you can take a look at the `Get` method to see if you can tell what's wrong. Looks like the previous developer is making two calls to the `GetDefaultCities` method here. You can right click on the method name and then click **Go to Definition** to see what that method's doing.
-
-    ![Go to definition](13-get-method.png)
-
-1. Looks like the `GetDefaultCities` method returns a static list. The list doesn't contain Seattle, so that explains why it isn't showing up.
-
-    ![GetDefaultCities method code](get-default-cities.png)
-
-1. Scroll up to show the `Get` method. You can see that this is the one that actually uses Entity Framework to query the database. 
-    ![Get method code](get-method.png)
-
-1. Find the line of code in `CitiesController` using the `Where` method:
-
-    ```csharp
-    _citiesQuery.GetDefaultCities().Result
-        .Where(city => city.Name.StartsWith(name));
-    ```
-
-1. Change the code to match this:
-
-    ```csharp
-    await _citiesQuery.Get(name);
-    ```
-
-    ![Fixed Get method](15-fixed-code.png)
-
-### Set up debugging in Azure Dev Spaces
-
-Now that you've updated the code, you probably want to debug it to make sure it works. But you know that this is a large application. You might think you'd need to set up all the databases, services, all of it, or at least get a copy of the AKS cluster on your machine or somewhere else so you won't impact your teammates, who might need to utilize the same databases and services for their own testing. This could take hours, or days, to set up and get working properly.
-
-Luckily, that's exactly what **Azure Dev Spaces** can do for you. Without setting up anything, you can select Dev Spaces to use when I want to debug my code. Then, a copy of your service is deployed into AKS, and commands will be routed to that copy of the service. That way, you can debug my code changes **in your own space** without impacting your teammates, all of whom may have code running in their own Dev Spaces.
-
-1. Add a breakpoint on the `return Ok(cities);` line of code. 
+1. In the `Get` method, add a breakpoint on the curly bracket `{` at the start of the Get method. 
 
     ![Add breakpoint](22-breakpoint.png)
 
@@ -101,6 +72,8 @@ By default, your code will run in your team's dev space when you press F5, but y
 
 1. Click the **Change** button. 
 
+1. Sign in to Azure using the credentials provided by a lab proctor.
+
 1. Select the AKS Cluster you want to use. Please check with a lab proctor to identify which cluster to use.
 
 1. Select **Create New Space** from the Space menu. 
@@ -111,7 +84,9 @@ By default, your code will run in your team's dev space when you press F5, but y
     
     ![Name your space](19-new-space-name.png)
 
-1. Enable the **Launch browser** checkbox.
+1. Click OK.
+
+1. Back in the debug properties window, enable the **Launch browser** checkbox.
 
 1. Paste in the URL of the site (this should be the web site's public URL running in your cluster).
 
@@ -119,7 +94,7 @@ By default, your code will run in your team's dev space when you press F5, but y
 
     ![Prefixing site URL with space name](20-launch-url-with-space.png)
 
-### Run your updated code in Azure Dev Spaces
+### Run your code in Azure Dev Spaces
 
 1. Select **Azure Dev Spaces** from the debug menu. 
 
@@ -127,13 +102,53 @@ By default, your code will run in your team's dev space when you press F5, but y
 
 1. Hit F5 to start the debugger (or click the toolbar button in Visual Studio). 
     
-    ![Site running](23-search-during-debug.png)
-
     This first F5 will take some time. The app will be compiled, then built into a Docker image. That image will then be published up into AKS and initialized in a namespace named with your dev space name. Then, the browser will open to the public web site. The URL of the site will include a prefix, however, that will be passed through when REST API calls are made to the Hotels API. Since that prefix is coming through on the URL, Dev Spaces knows that means to route traffic to the Hotels container running in your personal dev space, where you've got the debugger attached.
 
 1. Once the site opens, scroll down and search for **Seattle** in the city search box. 
 
-1. In a moment, Visual Studio should obtain focus and the debugger should stop on the line with the breakpoint. You can step through the code to see that the search hit the database and found a result for "Seattle."
+    ![Site running](23-search-during-debug.png)
+
+1. In a moment, Visual Studio should obtain focus and the debugger should stop on the line with the breakpoint.
+
+### Fix the Hotels microservice
+
+1. Step through the code for the `Get` method to see if you can tell what's wrong. You'll see that the `cities.Count() == 0` condition is hit, even though we expect `Seattle` to be in the list of cities.
+
+1. There must be something wrong with the previous line, where there are two calls to the `GetDefaultCities` method. Stop debugging to take a closer look at this code.
+
+1. You can right click on the method name and then click **Go to Definition** to see what that method is doing.
+
+    ![Go to definition](13-get-method.png)
+
+1. Looks like the `GetDefaultCities` method returns a static list. The list doesn't contain Seattle, so that explains why it isn't showing up.
+
+    ![GetDefaultCities method code](get-default-cities.png)
+
+1. Scroll up to show the `Get` method. You can see that this is the one that actually uses Entity Framework to query the database. 
+    ![Get method code](get-method.png)
+
+1. Find the line of code in `CitiesController` using the `Where` method:
+
+    ```csharp
+    _citiesQueries.GetDefaultCities().Result
+        .Where(city => city.Name.StartsWith(name));
+    ```
+
+1. Change the code to match this:
+
+    ```csharp
+    await _citiesQueries.Get(name);
+    ```
+
+    ![Fixed Get method](15-fixed-code.png)
+
+1. Press **Ctrl-S** to save your changes.
+
+### Validate your fix
+
+1. Press F5 to start debugging again.
+
+1. When the debugger stops again, step through the code to see that the search hit the database and found a result for "Seattle."
     
     ![Search for Seattle](24-breakpoint-hit.png)
 
@@ -144,6 +159,8 @@ By default, your code will run in your team's dev space when you press F5, but y
 1. Go to the public URL for the team's version of the website, by removing the `<spacename>.s.` prefix from the URL. \(Or, ask your neighbor to do so.\) Then try searching for **Seattle**.
 
     Note that this time, the debugger does *not* break in when you search for a city name. That is because the team's version of the website hits the version of the Hotels microservice that is running in the team's dev space, while your debugger is hooked up to the version of the Hotels microservice that is running in your personal dev space.
+
+    Also note that the bug still exists in the team's version of the website. At this point, you would need to follow the team's procedures to check in your fix to source control and deploy the updated code to the team's dev space.
 
 Now, the search is working. In just minutes, you were able to find and fix the bug, as well as validate your fix.  
 
