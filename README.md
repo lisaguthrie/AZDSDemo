@@ -2,7 +2,7 @@
 
 ![Dev Spaces](dev-spaces.png)
 
-The AKS cluster created for this lab contains support for Azure Dev Spaces, so that you can debug the individual services live in the Kubernetes cluster. There's a pre-wired error in the Hotels microservice you'll fix during the demo, then debug in your own Azure Dev Space to validate the fix worked.
+The AKS cluster created for this lab contains support for Azure Dev Spaces, so that you can debug the individual services live in the Kubernetes cluster. There's a pre-wired error in the Hotels microservice you'll fix during the lab, then debug in your own dev space to validate that the fix worked.
 
 ### Lab scenario
 
@@ -45,7 +45,7 @@ You can see that SmartHotel360 is a large application. In order to track down th
 
 Luckily, that's exactly what **Azure Dev Spaces** can do for you. Without setting up anything, you can select Dev Spaces to use when you want to debug your code. Then, a copy of your service is deployed into AKS, and commands will be routed to that copy of the service. That way, you can debug my code changes **in your own space** without impacting your teammates, all of whom may have code running in their own Dev Spaces.
 
-1. In Solution Explorer, Locate the **SmartHotel.Services.Hotels** project.
+1. In Solution Explorer, locate the **SmartHotel.Services.Hotels** project.
 
 1. Expand the **Controllers** folder and double click on **CitiesController.cs.**
 
@@ -72,7 +72,7 @@ By default, your code will run in your team's dev space when you press F5, but y
 
 1. Click the **Change** button. 
 
-1. Sign in to Azure using the credentials provided by a lab proctor.
+1. Click on **Add an Account** and sign in to Azure using the credentials provided by a lab proctor.
 
 1. Select the AKS Cluster you want to use. Please check with a lab proctor to identify which cluster to use.
 
@@ -112,9 +112,9 @@ By default, your code will run in your team's dev space when you press F5, but y
 
 ### Fix the Hotels microservice
 
-1. Step through the code for the `Get` method to see if you can tell what's wrong. You'll see that the `cities.Count() == 0` condition is hit, even though we expect `Seattle` to be in the list of cities.
+1. Use the F10 key to step through the code for the `Get` method to see if you can tell what's wrong. You'll see that the `cities.Count() == 0` condition is hit, even though we expect `Seattle` to be in the list of cities.
 
-1. There must be something wrong with the previous line, where there are two calls to the `GetDefaultCities` method. Stop debugging to take a closer look at this code.
+1. There must be something wrong with the previous line, where there are two calls to the `GetDefaultCities` method. Stop debugging by pressing **Shift-F5**, then take a closer look at this code.
 
 1. You can right click on the method name and then click **Go to Definition** to see what that method is doing.
 
