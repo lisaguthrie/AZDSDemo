@@ -62,7 +62,7 @@ In this lab, you will work with a simple web application that consists of a fron
 ### Call mywebapi from webfrontend
 Next, you will update your `webfrontend` code to call into a back-end Node.js microservice called `mywebapi`. This web API is not exposed publicly to the Internet, but it is available inside the AKS cluster at `http://mywebapi.`
 
-Traditionally, you would need to run `mywebapi` on your local dev workstation (which could be time-consuming to set up and configure), or mock the interface used between `webfrontend` and `mywebapi` (which could result in integration problems if your mock interface doesn't accurately reflect the data returned by `mywebapi`). But with Azure Dev Spaces, `mywebapi` is already running in your team's cluster. You simply need to update your `webfrontend` code to call into it.
+Traditionally, you would need to run `mywebapi` on your local dev workstation (which could be time-consuming to set up and configure), or mock the interface used between `webfrontend` and `mywebapi` (which could result in integration problems if your mock is not in sync with the real version of `mywebapi`). But with Azure Dev Spaces, `mywebapi` is already running in your team's cluster. You simply need to update your `webfrontend` code to call into it.
 
 1. In Visual Studio, open the `HomeController.cs` file again.
 
