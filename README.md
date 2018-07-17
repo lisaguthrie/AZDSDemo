@@ -9,7 +9,7 @@ In this lab, you will work with a simple web application that consists of a fron
 
 1. Under **Local Git Repositories**, click **Clone**.
 
-1. In the highlighted yellow box, enter the following URL: `https://github.com/Azure/dev-spaces`
+1. In the highlighted yellow box, enter the following URL: `https://github.com/lisaguthrie/dev-spaces`
 
     ![Clone repository](clone2.png)
 
@@ -47,11 +47,9 @@ In this lab, you will work with a simple web application that consists of a fron
 
 1. Click OK to create your space.
 
-1. **Be sure to click the *Publicly Accessible* checkbox.** This tells Azure Dev Spaces to create an Internet-accessible endpoint for your web application.
+1. Click OK.
 
     ![Configure Azure Dev Spaces](configuredevspaces.png)
-
-1. Click OK.
 
 By default, Visual Studio will launch the team's version of the website when you press F5, but you can configure it to launch your version instead.
 
