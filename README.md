@@ -11,13 +11,9 @@ In this lab, you will work with a simple web application that consists of a fron
 
 1. In the highlighted yellow box, enter the following URL: `https://github.com/lisaguthrie/dev-spaces`
 
-    ![Clone repository](clone2.png)
+    ![Clone repository](clone-lisaguthrie-devspaces.png)
 
-1. Go to the **File** menu, click **Open**, and then click **Project/Solution...**
-
-1. Navigate to `dev-spaces\samples\dotnetcore\getting-started\webfrontend`
-
-1. Open `webfrontend.csproj`
+1. Click **Solutions and Folders** and then click **webfrontend.sln** to open the solution file.
 
 ### Set a breakpoint inside the front-end website
 
@@ -33,7 +29,7 @@ In this lab, you will work with a simple web application that consists of a fron
 
     ![Change debug launch target](changedebugtarget2.png)
 
-1. Click on **Add an Account** and sign in to Azure using the credentials found under the **Resources** tab in the pane where these instructions are located..
+1. Click on **Add an Account** and sign in to Azure using the credentials found under the **Resources** tab, just above where you are reading these lab directions.
 
 1. Select the AKS Cluster you want to use. Please check with a lab proctor to identify which cluster to use.
 
@@ -50,22 +46,6 @@ In this lab, you will work with a simple web application that consists of a fron
 1. Click OK.
 
     ![Configure Azure Dev Spaces](configuredevspaces.png)
-
-By default, Visual Studio will launch the team's version of the website when you press F5, but you can configure it to launch your version instead.
-
-1. Right-click the `webfrontend` Visual Studio project.
-
-    ![Right-click VS Project](projectproperties-webfrontend.png)
-
-1. Select **Properties** from the flyout menu. 
-
-1. Select **Debug** in the left navigation. 
-
-1. Enable the **Launch browser** checkbox.
-
-1. Ask a lab proctor for the public URL for your cluster. Prefix the URL with the name of your space and  `.s.` The format will be `http://<yourspace>.s.webfrontend.<guid>.aksapp.io`. This prefix will be passed through when REST API calls are made to a back-end microservice. Dev Spaces uses this prefix to know which version of the  microservice to route the calls to -- the version of the microservice running in the team's space, or in your own dev space.
-
-    ![Prefixing site URL with space name](debugproperties.png)
 
 ### Run your code in Azure Dev Spaces
 
