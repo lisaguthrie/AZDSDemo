@@ -1,3 +1,8 @@
+# Presentation
+The presentation associated with this lab is available [here](Presentation.pptx).
+
+# Lab
+
 [Azure Dev Spaces](https://docs.microsoft.com/en-us/azure/dev-spaces/azure-dev-spaces) provides a rapid, iterative Kubernetes development experience for teams. With minimal dev machine setup, you can iteratively run and debug containers directly in Azure Kubernetes Service (AKS). Develop on Windows, Mac, or Linux using familiar tools like Visual Studio, Visual Studio Code, or the command line.
 
 In this lab, you will work with a simple web application that consists of a front-end website and a back-end web API, running inside an AKS cluster. You will make some quick updates to these services. The AKS cluster created for this lab contains support for Azure Dev Spaces, so that you can debug the individual services live in the cluster.
