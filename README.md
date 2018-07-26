@@ -1,7 +1,8 @@
-# Presentation
-The presentation associated with this lab is available [here](Presentation.pptx).
+### The presentation associated with this lab is available [here](https://microsoft-my.sharepoint.com/:p:/p/lcozzens/EQk7Swd_MGpHrsY-QHXbqbYBaUQ116ZBjIZ8BfA1ZZnDwg?e=pkDwe6). (Microsoft Corpnet credentials required.)
 
-# Lab
+### Azure Dev Spaces documentation is available [here](http://aka.ms/get-azds)
+
+---
 
 [Azure Dev Spaces](https://docs.microsoft.com/en-us/azure/dev-spaces/azure-dev-spaces) provides a rapid, iterative Kubernetes development experience for teams. With minimal dev machine setup, you can iteratively run and debug containers directly in Azure Kubernetes Service (AKS). Develop on Windows, Mac, or Linux using familiar tools like Visual Studio, Visual Studio Code, or the command line.
 
